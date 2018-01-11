@@ -3,11 +3,17 @@ package com.linlif.socketchat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+
+import com.linlif.socketchat.client.SocketThread;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,9 +45,11 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
         Intent intent = getIntent();
         host = intent.getStringExtra("host");
         prot = intent.getStringExtra("prot");
-
-        mAdapter = new ChatAdapter(this, userId);
+        List<ChatDate> mList = new ArrayList<>();
+        mAdapter = new ChatAdapter(this, userId,mList);
+        recycleView.setLayoutManager(new LinearLayoutManager(this));
         recycleView.setAdapter(mAdapter);
+        Log.e("test" , mAdapter.hashCode()+"has");
 
 
         socketThread = new SocketThread(this);
@@ -77,6 +85,6 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
 
     @Override
     public void receiveMsg(ChatDate bean) {
-
+        mAdapter.addChatDate(bean);
     }
 }

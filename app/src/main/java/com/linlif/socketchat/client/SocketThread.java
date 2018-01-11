@@ -1,10 +1,12 @@
-package com.linlif.socketchat;
+package com.linlif.socketchat.client;
 
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.linlif.socketchat.ChatDate;
+import com.linlif.socketchat.ChatView;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -55,13 +57,20 @@ public class SocketThread extends Thread {
         }
     }
 
-    public void sendMsg(String msg) {
-        ChatDate bean = new ChatDate(msg, chatView.getUserId());
-        if (!TextUtils.isEmpty(msg) && socket != null && socket.isConnected()) {
-            if (!socket.isOutputShutdown()) {
-                out.println(new Gson().toJson(bean));
+    public void sendMsg(final String msg) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ChatDate bean = new ChatDate(msg, chatView.getUserId());
+                if (!TextUtils.isEmpty(msg) && socket != null && socket.isConnected()) {
+                    if (!socket.isOutputShutdown()) {
+                        out.println(new Gson().toJson(bean));
+                    }
+                }
             }
-        }
+        }).start();
+
+
     }
 
     //接收线程发送过来信息，并用TextView显示

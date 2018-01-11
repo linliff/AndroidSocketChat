@@ -2,6 +2,7 @@ package com.linlif.socketchat;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -27,9 +29,10 @@ public class ChatAdapter extends RecyclerView.Adapter<MyViewHolder> {
     private String userId;
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public ChatAdapter(Context context, String userId) {
+    public ChatAdapter(Context context, String userId ,List<ChatDate> list) {
         this.mContext = context;
         this.userId = userId;
+        this.mList = list;
     }
 
     @Override
@@ -38,6 +41,15 @@ public class ChatAdapter extends RecyclerView.Adapter<MyViewHolder> {
         MyViewHolder myViewHolder = new MyViewHolder(view);
 
         return myViewHolder;
+    }
+
+
+    public void addChatDate(ChatDate chatBean) {
+        if (chatBean == null) return;
+        mList.add(chatBean);
+        Log.e("test" , mList.hashCode()+"");
+        Log.e("test" , this.hashCode()+"has");
+        notifyDataSetChanged();
     }
 
     @Override
