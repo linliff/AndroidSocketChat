@@ -30,6 +30,7 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
     EditText etContent;
     private String host;
     private String prot;
+    private String name;
     private ChatAdapter mAdapter;
     private SocketThread socketThread;
 
@@ -45,8 +46,9 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
         Intent intent = getIntent();
         host = intent.getStringExtra("host");
         prot = intent.getStringExtra("prot");
+        name = intent.getStringExtra("name");
         List<ChatDate> mList = new ArrayList<>();
-        mAdapter = new ChatAdapter(this, userId,mList);
+        mAdapter = new ChatAdapter(this, name,mList);
         recycleView.setLayoutManager(new LinearLayoutManager(this));
         recycleView.setAdapter(mAdapter);
         Log.e("test" , mAdapter.hashCode()+"has");
@@ -75,7 +77,7 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
 
     @Override
     public String getUserId() {
-        return userId;
+        return name;
     }
 
     @Override

@@ -20,26 +20,31 @@ public class MainActivity extends AppCompatActivity {
     EditText etHost;
     @Bind(R.id.etProt)
     EditText etProt;
+    @Bind(R.id.nickName)
+    EditText nickName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        StartService.initService();
+        //StartService.initService();
     }
 
     @OnClick(R.id.btnAdd)
     public void onClick(View v){
         String host = etHost.getText().toString().trim();
         String prot = etProt.getText().toString().trim();
-        if (TextUtils.isEmpty(host) || TextUtils.isEmpty(prot)) {
+        String name = nickName.getText().toString().trim();
+
+        if (TextUtils.isEmpty(host) || TextUtils.isEmpty(prot) || TextUtils.isEmpty(name)) {
             Toast.makeText(this , "信息不能为空！",Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent(this, ChatActivity.class);
         intent.putExtra("host", host);
         intent.putExtra("prot", prot);
+        intent.putExtra("name", name);
         startActivity(intent);
     }
 }
